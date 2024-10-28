@@ -1,0 +1,5 @@
+host: localhost
+port: 4001
+jwtSecret: secret_key_fithub
+jwtExpiryTimeHours: 24
+cookieInactivityTime: 30

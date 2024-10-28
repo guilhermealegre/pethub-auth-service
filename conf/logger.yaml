@@ -1,0 +1,17 @@
+path: /tmp/fithub/log/order
+file: fithub.log
+level: warning
+stackTrace: true
+body: true
+bodyExcludeUris:
+  -
+    method: GET
+    uri: /example
+
+rabbitmq:
+  queue: logging
+  routingKey: logging-create-log
+
+output:
+  - file
+  - console

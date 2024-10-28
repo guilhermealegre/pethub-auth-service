@@ -1,0 +1,18 @@
+multiDb: true
+migrationsDisabled: false
+
+master:
+  driver: postgres
+  database: fithub
+  host: localhost
+  user: postgres
+  password: password
+  port: 5432
+
+slave:
+  driver: postgres
+  database: fithub
+  host: localhost
+  user: postgres
+  password: password
+  port: 5432

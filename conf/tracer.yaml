@@ -1,0 +1,7 @@
+enabled: false
+strategy: jaeger
+
+jaeger:
+  #agentHostPort: localhost:6831
+  collectorHostPort: localhost:14268
+  log: false
