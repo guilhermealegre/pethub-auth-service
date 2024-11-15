@@ -1,0 +1,3 @@
+@Library('ops-jenkins-lib-global') _
+
+pipelineBuildAndPushService()
