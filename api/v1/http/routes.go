@@ -21,7 +21,7 @@ var (
 	SwaggerUserSwagger = GroupV1PDocumentationUser.NewEndpoint("/swagger", http.MethodGet)
 
 	Alive           = GroupV1.NewEndpoint("/alive", http.MethodGet)
-	PublicAliveUser = GroupV1P.NewEndpoint("/alive/auth", http.MethodGet)
+	PublicAliveAuth = GroupV1P.NewEndpoint("/alive/auth", http.MethodGet)
 
 	//auth
 	GetTokenInternalProviders           = GroupV1PAuth.NewEndpoint("/:provider/login", http.MethodPost)

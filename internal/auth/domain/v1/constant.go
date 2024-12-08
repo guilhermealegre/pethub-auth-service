@@ -3,13 +3,9 @@ package v1
 import "time"
 
 const (
-	Email       = "email"
-	PhoneNumber = "phone_number"
-
-	// token claims
-	IdUser         = "id_user"
-	FirstName      = "first_name"
-	LastName       = "last_name"
+	Email          = "email"
+	PhoneNumber    = "phone_number"
+	UserUUID       = "user_uuid"
 	ExpirationTime = "exp"
 
 	// token ttl

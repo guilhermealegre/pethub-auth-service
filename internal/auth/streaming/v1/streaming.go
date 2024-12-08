@@ -6,34 +6,29 @@ import (
 	ctxDomain "github.com/guilhermealegre/go-clean-arch-infrastructure-lib/domain/context"
 	"github.com/guilhermealegre/pethub-auth-service/api/v1/http/rabbitmq/envelop/producer"
 	domainAuth "github.com/guilhermealegre/pethub-auth-service/internal/auth/domain/v1"
+	"github.com/guilhermealegre/pethub-user-service/api/v1/grpc/user_service_user"
 )
 
 type Streaming struct {
-	app domain.IApp
+	app        domain.IApp
+	userClient user_service_user.UserClient
 }
 
-func NewStreaming(app domain.IApp) domainAuth.IStreaming {
+func NewStreaming(app domain.IApp, userClient user_service_user.UserClient) domainAuth.IStreaming {
 	return &Streaming{
-		app: app,
+		app:        app,
+		userClient: userClient,
 	}
 }
 
-func (s *Streaming) CreateUser(ctx ctxDomain.IContext, uuid uuid.UUID) (int, error) {
-	//Todo: be applied via grpc to user service
+func (s *Streaming) CreateUser(ctx ctxDomain.IContext, uuidUser uuid.UUID) (int, error) {
 
-	s.app.Grpc().x
+	resp, err := s.userClient.CreateUser(ctx.ToGrpc(), &user_service_user.CreateUserRequest{UUID: uuidUser[:]})
+	if err != nil {
+		return 0, err
+	}
 
-	return 0, nil
-}
-
-func (s *Streaming) GetUserDetails(ctx ctxDomain.IContext, idUser int) (*domainAuth.UserDetails, error) {
-
-	return &domainAuth.UserDetails{
-		IdUser:    idUser,
-		FirstName: "Guilherme",
-		LastName:  "Alegre",
-	}, nil
-
+	return int(resp.Id), nil
 }
 
 func (s *Streaming) SendEmailSignupConfirmationCode(ctx ctxDomain.IContext, email, confirmationCode string) error {

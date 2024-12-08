@@ -327,12 +327,15 @@ github.com/guilhermealegre/go-clean-arch-infrastructure-lib/domain/message
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/elastic_search/config
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/errors
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/errors/config
+github.com/guilhermealegre/go-clean-arch-infrastructure-lib/grpc
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/grpc/config
+github.com/guilhermealegre/go-clean-arch-infrastructure-lib/grpc/interceptor
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/http
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/http/config
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/logger
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/logger/config
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/logger/logging
+github.com/guilhermealegre/go-clean-arch-infrastructure-lib/logger/service_writer
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/logger/writer
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/meter/config
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/rabbitmq
@@ -346,6 +349,9 @@ github.com/guilhermealegre/go-clean-arch-infrastructure-lib/state_machine/instan
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/tracer
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/tracer/config
 github.com/guilhermealegre/go-clean-arch-infrastructure-lib/validator
+# github.com/guilhermealegre/pethub-user-service v0.0.0-20241120202053-78ab0692da11
+## explicit; go 1.22.7
+github.com/guilhermealegre/pethub-user-service/api/v1/grpc/user_service_user
 # github.com/hashicorp/hcl v1.0.0
 ## explicit
 github.com/hashicorp/hcl
@@ -556,6 +562,10 @@ go.mongodb.org/mongo-driver/x/bsonx/bsoncore
 ## explicit; go 1.22
 go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin
 go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin/internal/semconvutil
+# go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.56.0
+## explicit; go 1.22
+go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc
+go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc/internal
 # go.opentelemetry.io/otel v1.31.0
 ## explicit; go 1.22
 go.opentelemetry.io/otel
@@ -567,6 +577,7 @@ go.opentelemetry.io/otel/internal/attribute
 go.opentelemetry.io/otel/internal/baggage
 go.opentelemetry.io/otel/internal/global
 go.opentelemetry.io/otel/propagation
+go.opentelemetry.io/otel/semconv/v1.17.0
 go.opentelemetry.io/otel/semconv/v1.20.0
 go.opentelemetry.io/otel/semconv/v1.21.0
 go.opentelemetry.io/otel/semconv/v1.26.0
@@ -585,6 +596,7 @@ go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp/internal/retry
 ## explicit; go 1.22
 go.opentelemetry.io/otel/metric
 go.opentelemetry.io/otel/metric/embedded
+go.opentelemetry.io/otel/metric/noop
 # go.opentelemetry.io/otel/sdk v1.31.0
 ## explicit; go 1.22
 go.opentelemetry.io/otel/sdk
@@ -679,8 +691,8 @@ google.golang.org/genproto/googleapis/api/httpbody
 # google.golang.org/genproto/googleapis/rpc v0.0.0-20241007155032-5fefd90f89a9
 ## explicit; go 1.21
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.67.1
-## explicit; go 1.21
+# google.golang.org/grpc v1.68.0
+## explicit; go 1.22.7
 google.golang.org/grpc
 google.golang.org/grpc/attributes
 google.golang.org/grpc/backoff
@@ -688,6 +700,8 @@ google.golang.org/grpc/balancer
 google.golang.org/grpc/balancer/base
 google.golang.org/grpc/balancer/grpclb/state
 google.golang.org/grpc/balancer/pickfirst
+google.golang.org/grpc/balancer/pickfirst/internal
+google.golang.org/grpc/balancer/pickfirst/pickfirstleaf
 google.golang.org/grpc/balancer/roundrobin
 google.golang.org/grpc/binarylog/grpc_binarylog_v1
 google.golang.org/grpc/channelz
@@ -732,13 +746,17 @@ google.golang.org/grpc/keepalive
 google.golang.org/grpc/mem
 google.golang.org/grpc/metadata
 google.golang.org/grpc/peer
+google.golang.org/grpc/reflection
+google.golang.org/grpc/reflection/grpc_reflection_v1
+google.golang.org/grpc/reflection/grpc_reflection_v1alpha
+google.golang.org/grpc/reflection/internal
 google.golang.org/grpc/resolver
 google.golang.org/grpc/resolver/dns
 google.golang.org/grpc/serviceconfig
 google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
-# google.golang.org/protobuf v1.35.1
+# google.golang.org/protobuf v1.35.2
 ## explicit; go 1.21
 google.golang.org/protobuf/encoding/protodelim
 google.golang.org/protobuf/encoding/protojson
@@ -748,6 +766,7 @@ google.golang.org/protobuf/internal/descfmt
 google.golang.org/protobuf/internal/descopts
 google.golang.org/protobuf/internal/detrand
 google.golang.org/protobuf/internal/editiondefaults
+google.golang.org/protobuf/internal/editionssupport
 google.golang.org/protobuf/internal/encoding/defval
 google.golang.org/protobuf/internal/encoding/json
 google.golang.org/protobuf/internal/encoding/messageset
@@ -766,10 +785,13 @@ google.golang.org/protobuf/internal/strs
 google.golang.org/protobuf/internal/version
 google.golang.org/protobuf/proto
 google.golang.org/protobuf/protoadapt
+google.golang.org/protobuf/reflect/protodesc
 google.golang.org/protobuf/reflect/protoreflect
 google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
+google.golang.org/protobuf/types/descriptorpb
+google.golang.org/protobuf/types/gofeaturespb
 google.golang.org/protobuf/types/known/anypb
 google.golang.org/protobuf/types/known/durationpb
 google.golang.org/protobuf/types/known/fieldmaskpb

@@ -33,23 +33,22 @@ func NewModel(
 
 func (m *Model) GetToken(ctx ctxDomain.IContext, loginIdentifier, identifierType, password string) (tokenPair *domainAuth.TokenPair, err error) {
 
-	userAuthDetails, err := m.repository.GetAuthDetails(ctx, m.app.Database().Read(), loginIdentifier, identifierType)
+	authDetails, err := m.repository.GetAuthDetails(ctx, m.app.Database().Read(), loginIdentifier, identifierType)
 	if err != nil {
 		return nil, err
 	}
 
-	err = bcrypt.CompareHashAndPassword(userAuthDetails.Password, []byte(password))
+	err = bcrypt.CompareHashAndPassword(authDetails.Password, []byte(password))
 	if err != nil {
 		return nil, err
 	}
 
-	userDetails, err := m.streaming.GetUserDetails(ctx, userAuthDetails.IdUser)
-	if err != nil {
-		return nil, err
+	tokenJWTDetails := &domainAuth.TokenJWTDetails{
+		UserUUID: authDetails.UserUUID,
+		Email:    authDetails.Email,
 	}
 
-	userDetails.Email = userAuthDetails.Email
-	tokenPair, err = m.generateTokenPair(userDetails)
+	tokenPair, err = m.generateTokenPair(tokenJWTDetails)
 	if err != nil {
 		return nil, err
 	}
@@ -67,11 +66,8 @@ func (m *Model) GetTokenByExternalProviders(ctx ctxDomain.IContext) (*domainAuth
 		return nil, err
 	}
 
-	userDetails := domainAuth.UserDetails{
-		Email:     gothUser.Email,
-		FirstName: gothUser.FirstName,
-		LastName:  gothUser.LastName,
-		Avatar:    gothUser.AvatarURL,
+	userDetails := domainAuth.TokenJWTDetails{
+		Email: gothUser.Email,
 	}
 
 	tokenPair, err := m.generateTokenPair(&userDetails)
@@ -142,19 +138,19 @@ func (m *Model) CreatePassword(ctx ctxDomain.IContext, email, password string) (
 	}
 	defer tx.RollbackUnlessCommitted()
 
-	uuid, err := m.repository.CreatePassword(ctx, tx, email, hashedPassword)
+	userUUID, err := m.repository.CreatePassword(ctx, tx, email, hashedPassword)
 	if err != nil {
 		return nil, err
 	}
 
-	idUser, err := m.streaming.CreateUser(ctx, uuid)
+	_, err = m.streaming.CreateUser(ctx, userUUID)
 	if err != nil {
 		return nil, err
 	}
 
-	tokenPair, err := m.generateTokenPair(&domainAuth.UserDetails{
-		IdUser: idUser,
-		Email:  email,
+	tokenPair, err := m.generateTokenPair(&domainAuth.TokenJWTDetails{
+		UserUUID: userUUID,
+		Email:    email,
 	})
 	if err != nil {
 		return nil, err
@@ -215,12 +211,10 @@ func (m *Model) generateTokenFromClaim(claims map[string]interface{}, tokenTTL t
 	return tokenString, nil
 }
 
-func (m *Model) generateTokenPair(userDetails *domainAuth.UserDetails) (*domainAuth.TokenPair, error) {
+func (m *Model) generateTokenPair(userDetails *domainAuth.TokenJWTDetails) (*domainAuth.TokenPair, error) {
 	accessTokenClaims := map[string]interface{}{
-		domainAuth.IdUser:    userDetails.IdUser,
-		domainAuth.FirstName: userDetails.FirstName,
-		domainAuth.LastName:  userDetails.LastName,
-		domainAuth.Email:     userDetails.Email,
+		domainAuth.UserUUID: userDetails.UserUUID,
+		domainAuth.Email:    userDetails.Email,
 	}
 	accessToken, err := m.generateTokenFromClaim(accessTokenClaims, domainAuth.AccessTokenTTL)
 	if err != nil {
@@ -228,10 +222,8 @@ func (m *Model) generateTokenPair(userDetails *domainAuth.UserDetails) (*domainA
 	}
 
 	refreshTokenClaims := map[string]interface{}{
-		domainAuth.IdUser:    userDetails.IdUser,
-		domainAuth.FirstName: userDetails.FirstName,
-		domainAuth.LastName:  userDetails.LastName,
-		domainAuth.Email:     userDetails.Email,
+		domainAuth.UserUUID: userDetails.UserUUID,
+		domainAuth.Email:    userDetails.Email,
 	}
 	refreshToken, err := m.generateTokenFromClaim(refreshTokenClaims, domainAuth.RefreshTokenTTL)
 	if err != nil {

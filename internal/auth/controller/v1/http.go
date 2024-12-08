@@ -255,10 +255,14 @@ func (c *Controller) CreatePassword(gCtx *gin.Context) {
 		c.Json(ctx, nil, err)
 		return
 	}
-	//ctx.GetUser().Email,
-	email := "sdfa@asf.com"
 
-	tokenPair, err := c.model.CreatePassword(ctx, email, req.Body.Password)
+	email, ok := ctx.Get("email")
+	if !ok {
+		c.Json(ctx, nil, internal.ErrorInvalidEmail())
+		return
+	}
+
+	tokenPair, err := c.model.CreatePassword(ctx, email.(string), req.Body.Password)
 	c.Json(ctx, tokenPair.FromDomainToAPI(), err)
 }
 

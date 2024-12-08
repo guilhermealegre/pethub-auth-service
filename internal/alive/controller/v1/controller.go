@@ -22,7 +22,7 @@ func NewController(app domain.IApp, model alive.IModel) domain.IController {
 
 func (c *Controller) Register() {
 	v1Routes.Alive.SetRoute(c.App().Http().Router(), c.Get)
-	v1Routes.PublicAliveUser.SetRoute(c.App().Http().Router(), c.GetPublic)
+	v1Routes.PublicAliveAuth.SetRoute(c.App().Http().Router(), c.GetPublic)
 }
 
 /*

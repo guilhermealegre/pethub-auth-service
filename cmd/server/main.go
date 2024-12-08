@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"github.com/guilhermealegre/go-clean-arch-infrastructure-lib/grpc"
 	"github.com/guilhermealegre/go-clean-arch-infrastructure-lib/logger"
 	"github.com/guilhermealegre/go-clean-arch-infrastructure-lib/rabbitmq"
 	"github.com/guilhermealegre/go-clean-arch-infrastructure-lib/tracer"
 	v1AuthController "github.com/guilhermealegre/pethub-auth-service/internal/auth/controller/v1"
 	"github.com/guilhermealegre/pethub-auth-service/internal/infrastructure/providers"
+	"github.com/guilhermealegre/pethub-user-service/api/v1/grpc/user_service_user"
 	"os"
 
 	v1 "github.com/guilhermealegre/pethub-auth-service/internal/auth/domain/v1"
@@ -26,6 +28,7 @@ import (
 
 	v1AuthRepository "github.com/guilhermealegre/pethub-auth-service/internal/auth/repository/v1"
 
+	grpcInfra "github.com/guilhermealegre/pethub-auth-service/internal/infrastructure/grpc"
 	v1Middleware "github.com/guilhermealegre/pethub-auth-service/internal/middleware/v1"
 	v1SwaggerController "github.com/guilhermealegre/pethub-auth-service/internal/swagger/controller/v1"
 	_ "github.com/lib/pq" // postgres driver
@@ -44,13 +47,18 @@ func main() {
 	newRedis := redis.New(newApp, nil).WithAdditionalConfigType(&v1.AdditionalConfigType{})
 	newDatabase := database.New(newApp, nil)
 	newRabbitMQ := rabbitmq.New(newApp, nil)
+	newGrpc := grpc.New(newApp, nil)
+
+	userClient := newGrpc.GetClient(grpcInfra.UserClient)
 
 	// repository
 	authRepository := v1AuthRepository.NewRepository(newApp)
+
+	// streaming
+	authStreaming := v1AuthStreaming.NewStreaming(newApp, user_service_user.NewUserClient(userClient))
+
 	// models
 	aliveModel := v1AliveModel.NewModel(newApp)
-	// streaming
-	authStreaming := v1AuthStreaming.NewStreaming(newApp)
 	authModel := v1AuthModel.NewModel(newApp, authRepository, authStreaming)
 
 	newHttp.
@@ -70,6 +78,7 @@ func main() {
 		WithLogger(newLogger).
 		WithTracer(newTracer).
 		WithRabbitmq(newRabbitMQ).
+		WithGrpc(newGrpc).
 		WithHttp(newHttp)
 
 	err := providers.New()

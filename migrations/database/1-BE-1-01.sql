@@ -11,13 +11,12 @@ CREATE TABLE "auth".auth
     password                BYTEA,
     created_at              timestamptz NOT NULL DEFAULT now(),
     updated_at              timestamptz NOT NULL DEFAULT now(),
-    fk_users                INTEGER UNIQUE NOT NULL,
     active                  BOOLEAN DEFAULT FALSE,
-    uuid                    UUID NOT NULL UNIQUE,
+    uuid_user                    UUID NOT NULL UNIQUE,
     UNIQUE(code_phone_number, phone_number)
 );
 
-CREATE INDEX idx_auth_uuid ON users(uuid);
+CREATE INDEX idx_auth_uuid ON "auth".auth(uuid_user);
 
 
 

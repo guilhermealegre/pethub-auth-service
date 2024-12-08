@@ -22,33 +22,9 @@ func NewRepository(app domain.IApp) domainAuth.IRepository {
 	}
 }
 
-func (r *Repository) CreateAuth(ctx ctxDomain.IContext, userAuthDetails *domainAuth.UserAuthDetails) error {
-
-	_, err := r.app.Database().Write().InsertInto(database.AuthTableAuth).
-		Columns(
-			"email",
-			"code_phone_number",
-			"phone_number",
-			"email_confirmation_token",
-		).
-		Values(
-			userAuthDetails.Email,
-			userAuthDetails.CodePhoneNumber,
-			userAuthDetails.PhoneNumber,
-			userAuthDetails.EmailConfirmationToken,
-		).
-		ExecContext(ctx)
-
-	if err != nil {
-		return r.app.Logger().DBLog(err)
-	}
-
-	return nil
-}
-
 func (r *Repository) GetAuthDetails(ctx ctxDomain.IContext, tx dbr.SessionRunner, loginIdentifier, identifierType string) (userAuthDetails *domainAuth.UserAuthDetails, err error) {
 	builder := tx.Select(
-		"COALESCE(fk_users, 0) as id_user",
+		"uuid_user as user_uuid",
 		"COALESCE(email,'') as email",
 		"password",
 		"COALESCE(code_phone_number, '') as code_phone_number",
@@ -109,7 +85,7 @@ func (r *Repository) CreatePassword(ctx ctxDomain.IContext, tx session.ITx, emai
 		Columns(
 			"email",
 			"password",
-			"fk_users",
+			"uuid_user",
 			"active",
 		).
 		Values(

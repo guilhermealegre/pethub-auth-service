@@ -1,5 +1,5 @@
 package grpc
 
 const (
-	ExternalClient = "external"
+	UserClient = "user"
 )

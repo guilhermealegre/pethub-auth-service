@@ -11,6 +11,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/guilhermealegre/go-clean-arch-core-lib v0.0.0-20241027200540-0fd34797cc18
 	github.com/guilhermealegre/go-clean-arch-infrastructure-lib v0.0.0-20241114212345-3347ddee5b26
+	github.com/guilhermealegre/pethub-user-service v0.0.0-20241120202053-78ab0692da11
 	github.com/lib/pq v1.10.9
 	github.com/markbates/goth v1.80.0
 	github.com/stretchr/testify v1.9.0
@@ -107,6 +108,7 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	go.mongodb.org/mongo-driver v1.14.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.56.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.56.0 // indirect
 	go.opentelemetry.io/otel v1.31.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.31.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.31.0 // indirect
@@ -125,8 +127,8 @@ require (
 	golang.org/x/text v0.19.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241007155032-5fefd90f89a9 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241007155032-5fefd90f89a9 // indirect
-	google.golang.org/grpc v1.67.1 // indirect
-	google.golang.org/protobuf v1.35.1 // indirect
+	google.golang.org/grpc v1.68.0 // indirect
+	google.golang.org/protobuf v1.35.2 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect

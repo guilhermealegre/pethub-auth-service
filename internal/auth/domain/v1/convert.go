@@ -34,11 +34,11 @@ func (a *Auth) FromAPIToDomain(reqEmail *request.GetTokenByEmailRequest, reqPhon
 	}
 }
 
-func (u *UserDetails) FromAPIToDomain(req *request.EmailSignupConfirmationRequest) *UserDetails {
+func (u *TokenJWTDetails) FromAPIToDomain(req *request.EmailSignupConfirmationRequest) *TokenJWTDetails {
 	if req == nil || u == nil {
 		return nil
 	}
 
-	return &UserDetails{}
+	return &TokenJWTDetails{}
 
 }

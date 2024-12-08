@@ -27,15 +27,13 @@ type IModel interface {
 
 type IRepository interface {
 	GetAuthDetails(ctx ctxDomain.IContext, tx dbr.SessionRunner, loginIdentifier, identifierType string) (*UserAuthDetails, error)
-	CreateAuth(ctx ctxDomain.IContext, signup *UserAuthDetails) error
 	SaveConfirmationCode(ctx ctxDomain.IContext, loginIdentifier, code string) error
 	GetConfirmationCode(ctx ctxDomain.IContext, loginIdentifier string) (string, error)
 	CreatePassword(ctx ctxDomain.IContext, tx session.ITx, email string, hashedPassword []byte) (uuid.UUID, error)
 }
 
 type IStreaming interface {
-	CreateUser(ctx ctxDomain.IContext, uuid2 uuid.UUID) (int, error)
-	GetUserDetails(ctx ctxDomain.IContext, idUser int) (*UserDetails, error)
+	CreateUser(ctx ctxDomain.IContext, userUUID uuid.UUID) (int, error)
 	SendEmailSignupConfirmationCode(ctx ctxDomain.IContext, email, confirmationCode string) error
 	SendSMSSignupConfirmationCode(ctx ctxDomain.IContext, number, confirmationCode string) error
 }

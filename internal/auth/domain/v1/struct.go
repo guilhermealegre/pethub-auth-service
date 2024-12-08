@@ -24,19 +24,14 @@ type Auth struct {
 
 // swagger:model UserAuthDetails
 type UserAuthDetails struct {
-	IdUser                 int       `json:"id_user"`
-	Email                  string    `json:"email"`
-	CodePhoneNumber        string    `json:"code_phone_number"`
-	PhoneNumber            string    `json:"phone_number"`
-	Password               []byte    `json:"password"`
-	EmailConfirmationToken uuid.UUID `json:"uuid"`
+	UserUUID        uuid.UUID `json:"user_uuid"`
+	Email           string    `json:"email"`
+	CodePhoneNumber string    `json:"code_phone_number"`
+	PhoneNumber     string    `json:"phone_number"`
+	Password        []byte    `json:"password"`
 }
 
-type UserDetails struct {
-	IdUser    int    `json:"id_user"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Tag       string `json:"tag"`
-	Email     string `json:"email"`
-	Avatar    string `json:"avatar"`
+type TokenJWTDetails struct {
+	UserUUID uuid.UUID `json:"user_uuid"`
+	Email    string    `json:"email"`
 }
